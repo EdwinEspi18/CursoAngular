@@ -1,0 +1,19 @@
+<h2>Por pais</h2>
+<hr />
+
+<div class="row">
+  <div class="col">
+    <app-busqueda [place]="place" (busqueda)="buscar($event)" (onDebounce)="sugerencias($event)"></app-busqueda>
+  </div>
+</div>
+<hr />
+
+<div *ngIf="hayError" class="alert alert-danger">
+  No se encontro nada con el termino {{termino}}
+</div>
+
+<div *ngIf="paises.length > 0" class="row">
+  <div class="col">
+    <app-table [paises]="paises"></app-table>
+  </div>
+</div>
