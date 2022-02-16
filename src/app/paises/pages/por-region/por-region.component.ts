@@ -8,29 +8,41 @@ import { PaisesService } from '../../services/paises.service';
   styleUrls: ['./por-region.component.css'],
 })
 export class PorRegionComponent {
-  termino: string = '';
-  region: IResponseData[] = [];
-  hayError: boolean = false;
-  place: string = 'Buscar por region....';
-
+  paises: IResponseData[] = [];
+  regiones: string[] = [
+    'EU',
+    'EFTA',
+    'CARICOM',
+    'PA',
+    'AU',
+    'USAN',
+    'EEU',
+    'AL',
+    'ASEAN',
+    'CAIS',
+    'CEFTA',
+    'NAFTA',
+    'SAARC',
+  ];
+  regionActiva: string = '';
   constructor(private paisService: PaisesService) {}
+  activarRegion(region: string) {
+    this.regionActiva = region;
 
-  buscar(termino: string): void {
-    this.hayError = false;
-    this.termino = termino;
-    this.paisService.getRegional(this.termino).subscribe({
-      next: (region) => {
-        this.region = region;
-      },
-      error: (err: Error) => {
-        this.hayError = true;
-        console.info(err);
-      },
-    });
+    if (region === this.regionActiva) {
+      return;
+    }
+    this.paisService
+      .getRegional(this.regionActiva)
+      .subscribe((paises) => (this.paises = paises));
   }
 
-  sugerencias(valor: string) {
-    this.hayError = false;
-    //TODO: crear sugerencias
+  get porRegion(): IResponseData[] {
+    return this.paises;
+  }
+  getClass(region: string) {
+    return region === this.regionActiva
+      ? 'btn btn-primary'
+      : 'btn btn-outline-primary';
   }
 }

@@ -10,7 +10,7 @@ export class BusquedaComponent implements OnInit {
   public termino: string = '';
 
   @Input() place: string = '';
-  @Output() busqueda: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onEnter: EventEmitter<string> = new EventEmitter<string>();
   @Output() onDebounce: EventEmitter<string> = new EventEmitter<string>();
 
   debouncer: Subject<string> = new Subject();
@@ -18,11 +18,11 @@ export class BusquedaComponent implements OnInit {
   ngOnInit(): void {
     this.debouncer
       .pipe(debounceTime(500))
-      .subscribe((valor) => this.busqueda.emit(valor));
+      .subscribe((valor) => this.onDebounce.emit(valor));
   }
 
   buscar() {
-    this.busqueda.emit(this.termino);
+    this.onEnter.emit(this.termino);
   }
   teclaPresionada() {
     this.debouncer.next(this.termino);
